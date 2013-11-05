@@ -4,3 +4,6 @@
 *.jar
 *.war
 *.ear
+/silicanote-webapp/target/
+/silicanote-model/target/
+/silicanote-engine/target/
