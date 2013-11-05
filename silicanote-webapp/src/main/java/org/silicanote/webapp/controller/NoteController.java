@@ -1,17 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package org.silicanote.webapp.controller;
 
 import java.util.List;
+import javax.ws.rs.PathParam;
 import org.silicanote.model.Note;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  *
@@ -21,25 +19,31 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/services/notes")
 public class NoteController {
     
-    @RequestMapping(value="/getnotes", method = RequestMethod.GET)
+    @RequestMapping(value="/getnotes", method = RequestMethod.GET, produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public List<Note> getNotes() {
         return null;
     }
     
-    @RequestMapping(value="/getnote", method = RequestMethod.GET)
+    @RequestMapping(value="/getnote/{id}", method = RequestMethod.GET, produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public Note getNotes(long id) {
+    public Note getNotes(@PathParam(value = "id") long id) {
         return null;
     }
     
     @RequestMapping(value="/addnote", method = RequestMethod.POST)
-    public void createNote(Note note){
+    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseBody
+    public void createNote(@RequestBody Note note){
         
     }
    
-    @RequestMapping(value = "/deletenote", method = RequestMethod.DELETE)
-    public void deleteNote(long id) {
+    @RequestMapping(value = "/deletenote/{id}", method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public void deleteNote(@PathParam(value = "id") long id) {
         
     }
 }
