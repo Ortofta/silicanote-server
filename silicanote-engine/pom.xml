@@ -23,5 +23,11 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.silicanote</groupId>
+      <artifactId>silicanote-model</artifactId>
+      <version>1.0-SNAPSHOT</version>
+      <type>jar</type>
+    </dependency>
   </dependencies>
 </project>

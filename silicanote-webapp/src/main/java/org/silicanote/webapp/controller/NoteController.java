@@ -1,7 +1,9 @@
 package org.silicanote.webapp.controller;
 
 import java.util.List;
+import javax.annotation.Resource;
 import javax.ws.rs.PathParam;
+import org.silicanote.engine.service.NoteService;
 import org.silicanote.model.Note;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -18,6 +20,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Controller
 @RequestMapping("/services/notes")
 public class NoteController {
+    
+    @Resource
+    private NoteService service;
     
     @RequestMapping(value="/getnotes", method = RequestMethod.GET, produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
@@ -45,5 +50,9 @@ public class NoteController {
     @ResponseBody
     public void deleteNote(@PathParam(value = "id") long id) {
         
+    }
+
+    public void setService(NoteService service) {
+        this.service = service;
     }
 }
