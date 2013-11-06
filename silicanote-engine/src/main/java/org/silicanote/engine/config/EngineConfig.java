@@ -2,6 +2,8 @@ package org.silicanote.engine.config;
 
 import com.mongodb.Mongo;
 import java.net.UnknownHostException;
+import org.silicanote.engine.dao.NoteDao;
+import org.silicanote.engine.dao.NoteDaoMongoImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,8 +25,18 @@ public class EngineConfig {
     private String dbName;
     
     @Bean
+    Mongo getMongo() throws UnknownHostException {
+        return new Mongo(dbHost);
+    }
+    
+    @Bean
     MongoTemplate mongoTemplate(Mongo mongo) throws UnknownHostException {
-        return new MongoTemplate(new Mongo(dbHost), dbName);
+        return new MongoTemplate(getMongo(), dbName);
+    }
+    
+    @Bean
+    NoteDao getNoteDao() {
+        return new NoteDaoMongoImpl();
     }
 
 }
