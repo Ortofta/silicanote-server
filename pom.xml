@@ -10,7 +10,8 @@
         <module>silicanote-webapp</module>
         <module>silicanote-model</module>
         <module>silicanote-engine</module>
-    </modules>
+    <module>silicanote-autotest</module>
+  </modules>
   
     <dependencies>
         <!-- Spring framework --> 
