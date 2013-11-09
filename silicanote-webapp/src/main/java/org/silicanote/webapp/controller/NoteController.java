@@ -28,28 +28,28 @@ public class NoteController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public List<Note> getNotes() {
-        return null;
+        return service.getNotes();
     }
     
     @RequestMapping(value="/getnote/{id}", method = RequestMethod.GET, produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public Note getNotes(@PathParam(value = "id") long id) {
-        return null;
+        return service.getNote(id);
     }
     
     @RequestMapping(value="/addnote", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
     public void createNote(@RequestBody Note note){
-        
+        service.addNote(note);
     }
    
     @RequestMapping(value = "/deletenote/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public void deleteNote(@PathParam(value = "id") long id) {
-        
+        service.deleteNote(id);
     }
 
     public void setService(NoteService service) {

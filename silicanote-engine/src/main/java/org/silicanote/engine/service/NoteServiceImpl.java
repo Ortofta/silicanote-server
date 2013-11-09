@@ -17,19 +17,19 @@ public class NoteServiceImpl implements NoteService {
     private NoteDao dao;
     
     public Note getNote(long noteId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return dao.getNote(noteId);
     }
 
     public List<Note> getNotes() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return dao.getNotes();
     }
 
     public void deleteNote(long noteId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        dao.deleteNote(noteId);
     }
 
     public void addNote(Note note) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        dao.addNote(note);
     }
 
     public void setDao(NoteDao dao) {
