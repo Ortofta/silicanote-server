@@ -34,7 +34,7 @@ public class NoteController {
     @RequestMapping(value="/getnote/{id}", method = RequestMethod.GET, produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public Note getNotes(@PathParam(value = "id") long id) {
+    public Note getNotes(@PathParam(value = "id") Long id) {
         return service.getNote(id);
     }
     
@@ -48,7 +48,7 @@ public class NoteController {
     @RequestMapping(value = "/deletenote/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public void deleteNote(@PathParam(value = "id") long id) {
+    public void deleteNote(@PathParam(value = "id") Long id) {
         service.deleteNote(id);
     }
 
