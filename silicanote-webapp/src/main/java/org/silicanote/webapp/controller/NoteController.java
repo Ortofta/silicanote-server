@@ -1,10 +1,12 @@
 package org.silicanote.webapp.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.ws.rs.PathParam;
 import org.silicanote.engine.service.NoteService;
-import org.silicanote.model.Note;
+import org.silicanote.model.db.DBNote;
+import org.silicanote.model.web.WebNote;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,22 +29,30 @@ public class NoteController {
     @RequestMapping(value="/getnotes", method = RequestMethod.GET, produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public List<Note> getNotes() {
-        return service.getNotes();
+    public List<WebNote> getNotes() {
+        List<DBNote> dbNotes = service.getNotes();
+        ArrayList<WebNote> notes = new ArrayList<>();
+        
+        for(DBNote note : dbNotes) {
+            notes.add(new WebNote(note.getId(), note.getHeading(), note.getBody()));
+        }
+        
+        return notes;
     }
     
     @RequestMapping(value="/getnote/{id}", method = RequestMethod.GET, produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public Note getNotes(@PathParam(value = "id") Long id) {
-        return service.getNote(id);
+    public WebNote getNotes(@PathParam(value = "id") Long id) {
+        DBNote note = service.getNote(id);
+        return new WebNote(note.getId(), note.getHeading(), note.getBody());
     }
     
     @RequestMapping(value="/addnote", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    public void createNote(@RequestBody Note note){
-        service.addNote(note);
+    public void createNote(@RequestBody WebNote note){
+        service.addNote(new DBNote(note.getId(), note.getHeading(), note.getBody()));
     }
    
     @RequestMapping(value = "/deletenote/{id}", method = RequestMethod.DELETE)

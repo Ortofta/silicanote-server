@@ -3,7 +3,8 @@ package org.silicanote.engine.service;
 import java.util.List;
 import javax.annotation.Resource;
 import org.silicanote.engine.dao.NoteDao;
-import org.silicanote.model.Note;
+import org.silicanote.model.db.DBNote;
+import org.silicanote.model.web.WebNote;
 import org.springframework.stereotype.Service;
 
 /**
@@ -16,11 +17,11 @@ public class NoteServiceImpl implements NoteService {
     @Resource
     private NoteDao dao;
     
-    public Note getNote(long noteId) {
+    public DBNote getNote(long noteId) {
         return dao.getNote(noteId);
     }
 
-    public List<Note> getNotes() {
+    public List<DBNote> getNotes() {
         return dao.getNotes();
     }
 
@@ -28,7 +29,7 @@ public class NoteServiceImpl implements NoteService {
         dao.deleteNote(noteId);
     }
 
-    public void addNote(Note note) {
+    public void addNote(DBNote note) {
         dao.addNote(note);
     }
 

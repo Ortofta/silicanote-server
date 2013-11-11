@@ -1,15 +1,15 @@
 package org.silicanote.engine.service;
 
 import java.util.List;
-import org.silicanote.model.Note;
+import org.silicanote.model.db.DBNote;
 
 /**
  *
  * @author Markus Svensson
  */
 public interface NoteService {
-    public Note getNote(long noteId);
-    public List<Note> getNotes();
+    public DBNote getNote(long noteId);
+    public List<DBNote> getNotes();
     public void deleteNote(long noteId);
-    public void addNote(Note note);
+    public void addNote(DBNote note);
 }

@@ -2,7 +2,7 @@ package org.silicanote.engine.dao;
 
 import java.util.List;
 import javax.annotation.Resource;
-import org.silicanote.model.Note;
+import org.silicanote.model.db.DBNote;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 /**
@@ -14,11 +14,11 @@ public class NoteDaoMongoImpl implements NoteDao {
     @Resource
     MongoTemplate mongoTemplate;
     
-    public Note getNote(long noteId) {
+    public DBNote getNote(long noteId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public List<Note> getNotes() {
+    public List<DBNote> getNotes() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -26,7 +26,7 @@ public class NoteDaoMongoImpl implements NoteDao {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public void addNote(Note note) {
+    public void addNote(DBNote note) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
