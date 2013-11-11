@@ -15,7 +15,6 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
  * @author Markus Svensson
  */
 @Configuration
-@EnableMongoRepositories
 public class EngineConfig {
 
     @Value("${silicanote.mongodb.host}")

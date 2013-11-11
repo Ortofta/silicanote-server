@@ -8,8 +8,8 @@ import org.silicanote.model.db.DBNote;
  * @author Markus Svensson
  */
 public interface NoteDao {
-    public DBNote getNote(long noteId);
+    public DBNote getNote(Long noteId);
     public List<DBNote> getNotes();
-    public void deleteNote(long noteId);
+    public void deleteNote(Long noteId);
     public void addNote(DBNote note);
 }

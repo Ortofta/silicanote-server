@@ -43,7 +43,7 @@ public class NoteController {
     @RequestMapping(value="/getnote/{id}", method = RequestMethod.GET, produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public WebNote getNotes(@PathParam(value = "id") Long id) {
+    public WebNote getNote(@PathParam(value = "id") Long id) {
         DBNote note = service.getNote(id);
         return new WebNote(note.getId(), note.getHeading(), note.getBody());
     }

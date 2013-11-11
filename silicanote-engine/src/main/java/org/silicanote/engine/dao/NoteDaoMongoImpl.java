@@ -14,15 +14,15 @@ public class NoteDaoMongoImpl implements NoteDao {
     @Resource
     MongoTemplate mongoTemplate;
     
-    public DBNote getNote(long noteId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public DBNote getNote(Long noteId) {
+        return new DBNote(1L, "Test", "Detta är ett test");
     }
 
     public List<DBNote> getNotes() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public void deleteNote(long noteId) {
+    public void deleteNote(Long noteId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

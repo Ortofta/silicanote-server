@@ -17,7 +17,7 @@ public class NoteServiceImpl implements NoteService {
     @Resource
     private NoteDao dao;
     
-    public DBNote getNote(long noteId) {
+    public DBNote getNote(Long noteId) {
         return dao.getNote(noteId);
     }
 
@@ -25,7 +25,7 @@ public class NoteServiceImpl implements NoteService {
         return dao.getNotes();
     }
 
-    public void deleteNote(long noteId) {
+    public void deleteNote(Long noteId) {
         dao.deleteNote(noteId);
     }
 
