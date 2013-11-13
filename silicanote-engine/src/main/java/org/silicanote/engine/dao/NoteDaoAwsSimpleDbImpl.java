@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Resource;
 import org.silicanote.model.db.DBNote;
+import org.springframework.beans.factory.annotation.Value;
 
 /**
  *
@@ -18,15 +19,18 @@ import org.silicanote.model.db.DBNote;
  */
 public class NoteDaoAwsSimpleDbImpl implements NoteDao {
 
-    private static final String DOMAIN_NAME = "SilicaNoteDataStore";
-    
     @Resource
     private AmazonSimpleDB sdb;
     
+    @Value("${silicanote.simpledb.domainname}")
+    private String domainName;
 
+    @Value("${silicanote.simpledb.regionname}")
+    private String regionName;
+    
     public void createDomain(String domainName) {
-        sdb.setRegion(Region.getRegion(Regions.US_EAST_1));
-        sdb.createDomain(new CreateDomainRequest(DOMAIN_NAME));
+        sdb.setRegion(Region.getRegion(Regions.fromName(regionName)));
+        sdb.createDomain(new CreateDomainRequest(domainName));
     }
 
     @Override
@@ -52,6 +56,6 @@ public class NoteDaoAwsSimpleDbImpl implements NoteDao {
         attributes.add(new ReplaceableAttribute("heading", note.getHeading(), Boolean.TRUE));
         attributes.add(new ReplaceableAttribute("body", note.getBody(), Boolean.TRUE));
         noteItem.setAttributes(attributes);
-        sdb.putAttributes(new PutAttributesRequest(DOMAIN_NAME, noteItem.getName(), noteItem.getAttributes()));
+        sdb.putAttributes(new PutAttributesRequest(domainName, noteItem.getName(), noteItem.getAttributes()));
     }
 }
