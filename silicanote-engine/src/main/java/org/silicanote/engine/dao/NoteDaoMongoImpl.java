@@ -11,8 +11,8 @@ import org.springframework.data.mongodb.core.MongoTemplate;
  */
 public class NoteDaoMongoImpl implements NoteDao {
 
-    @Resource
-    MongoTemplate mongoTemplate;
+//    @Resource
+//    MongoTemplate mongoTemplate;
     
     @Override
     public DBNote getNote(String noteId) {
