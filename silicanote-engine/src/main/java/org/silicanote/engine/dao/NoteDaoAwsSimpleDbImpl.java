@@ -35,7 +35,7 @@ public class NoteDaoAwsSimpleDbImpl implements NoteDao {
 
     @Override
     public DBNote getNote(String noteId) {
-        String selectStatement = "select * from " + domainName + " where ItemName = " + noteId;
+        String selectStatement = "select * from " + domainName + " where ItemName = '" + noteId + "'";
         SelectRequest request = new SelectRequest(selectStatement);
         List<DBNote> notes = new ArrayList<>();
         for(Item item : sdbClient.select(request).getItems()) {
