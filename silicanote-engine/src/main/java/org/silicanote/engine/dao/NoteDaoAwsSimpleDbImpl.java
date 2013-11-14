@@ -4,6 +4,7 @@ import com.amazonaws.services.simpledb.AmazonSimpleDB;
 import com.amazonaws.services.simpledb.model.Attribute;
 import com.amazonaws.services.simpledb.model.CreateDomainRequest;
 import com.amazonaws.services.simpledb.model.Item;
+import com.amazonaws.services.simpledb.model.NoSuchDomainException;
 import com.amazonaws.services.simpledb.model.PutAttributesRequest;
 import com.amazonaws.services.simpledb.model.ReplaceableAttribute;
 import com.amazonaws.services.simpledb.model.ReplaceableItem;
@@ -22,10 +23,10 @@ import org.slf4j.LoggerFactory;
 public class NoteDaoAwsSimpleDbImpl implements NoteDao {
 
     private static final Logger logger = LoggerFactory.getLogger(NoteDaoAwsSimpleDbImpl.class);
-    
+
     @Resource
     private AmazonSimpleDB sdbClient;
-    
+
     @Resource
     private String domainName;
 
@@ -38,11 +39,19 @@ public class NoteDaoAwsSimpleDbImpl implements NoteDao {
         String selectStatement = "select * from " + domainName + " where ItemName = '" + noteId + "'";
         SelectRequest request = new SelectRequest(selectStatement);
         List<DBNote> notes = new ArrayList<>();
-        for(Item item : sdbClient.select(request).getItems()) {
+
+        // Ugly hack for testing - to be handled in some other way
+        try {
+            sdbClient.select(request).getItems();
+        } catch (NoSuchDomainException e) {
+            createDomain(domainName);
+        }
+
+        for (Item item : sdbClient.select(request).getItems()) {
             String heading = "";
             String body = "";
             List<Attribute> attributes = item.getAttributes();
-            for(Attribute attribute : attributes) {
+            for (Attribute attribute : attributes) {
                 switch (attribute.getName()) {
                     case "heading":
                         heading = attribute.getValue();
@@ -57,14 +66,14 @@ public class NoteDaoAwsSimpleDbImpl implements NoteDao {
             DBNote note = new DBNote(item.getName(), heading, body);
             notes.add(note);
         }
-        
-        if(notes.size() > 1) {
+
+        if (notes.size() > 1) {
             logger.error("More than one item with name: " + noteId + " was returned");
         }
-        
-        if(notes.isEmpty()) {
+
+        if (notes.isEmpty()) {
             return null;
-        }else{ 
+        } else {
             return notes.get(0);
         }
     }
@@ -74,11 +83,11 @@ public class NoteDaoAwsSimpleDbImpl implements NoteDao {
         String selectStatement = "select * from " + domainName;
         SelectRequest request = new SelectRequest(selectStatement);
         List<DBNote> notes = new ArrayList<>();
-        for(Item item : sdbClient.select(request).getItems()) {
+        for (Item item : sdbClient.select(request).getItems()) {
             String heading = "";
             String body = "";
             List<Attribute> attributes = item.getAttributes();
-            for(Attribute attribute : attributes) {
+            for (Attribute attribute : attributes) {
                 switch (attribute.getName()) {
                     case "heading":
                         heading = attribute.getValue();
@@ -93,7 +102,7 @@ public class NoteDaoAwsSimpleDbImpl implements NoteDao {
             DBNote note = new DBNote(item.getName(), heading, body);
             notes.add(note);
         }
-        
+
         return notes;
     }
 
