@@ -1,17 +1,19 @@
 package org.silicanote.engine.dao;
 
-import com.amazonaws.regions.Region;
-import com.amazonaws.regions.Regions;
 import com.amazonaws.services.simpledb.AmazonSimpleDB;
+import com.amazonaws.services.simpledb.model.Attribute;
 import com.amazonaws.services.simpledb.model.CreateDomainRequest;
+import com.amazonaws.services.simpledb.model.Item;
 import com.amazonaws.services.simpledb.model.PutAttributesRequest;
 import com.amazonaws.services.simpledb.model.ReplaceableAttribute;
 import com.amazonaws.services.simpledb.model.ReplaceableItem;
+import com.amazonaws.services.simpledb.model.SelectRequest;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Resource;
 import org.silicanote.model.db.DBNote;
-import org.springframework.beans.factory.annotation.Value;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -19,32 +21,84 @@ import org.springframework.beans.factory.annotation.Value;
  */
 public class NoteDaoAwsSimpleDbImpl implements NoteDao {
 
-    @Resource
-    private AmazonSimpleDB sdb;
+    private static final Logger logger = LoggerFactory.getLogger(NoteDaoAwsSimpleDbImpl.class);
     
-    @Value("${silicanote.simpledb.domainname}")
+    @Resource
+    private AmazonSimpleDB sdbClient;
+    
+    @Resource
     private String domainName;
 
-    @Value("${silicanote.simpledb.regionname}")
-    private String regionName;
-    
     public void createDomain(String domainName) {
-        sdb.setRegion(Region.getRegion(Regions.fromName(regionName)));
-        sdb.createDomain(new CreateDomainRequest(domainName));
+        sdbClient.createDomain(new CreateDomainRequest(domainName));
     }
 
     @Override
-    public DBNote getNote(Long noteId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public DBNote getNote(String noteId) {
+        String selectStatement = "select * from " + domainName + " where ItemName = " + noteId;
+        SelectRequest request = new SelectRequest(selectStatement);
+        List<DBNote> notes = new ArrayList<>();
+        for(Item item : sdbClient.select(request).getItems()) {
+            String heading = "";
+            String body = "";
+            List<Attribute> attributes = item.getAttributes();
+            for(Attribute attribute : attributes) {
+                switch (attribute.getName()) {
+                    case "heading":
+                        heading = attribute.getValue();
+                        break;
+                    case "body":
+                        body = attribute.getValue();
+                        break;
+                    default:
+                        logger.info("Unknown attribute: " + attribute.getName());
+                }
+            }
+            DBNote note = new DBNote(item.getName(), heading, body);
+            notes.add(note);
+        }
+        
+        if(notes.size() > 1) {
+            logger.error("More than one item with name: " + noteId + " was returned");
+        }
+        
+        if(notes.isEmpty()) {
+            return null;
+        }else{ 
+            return notes.get(0);
+        }
     }
 
     @Override
     public List<DBNote> getNotes() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String selectStatement = "select * from " + domainName;
+        SelectRequest request = new SelectRequest(selectStatement);
+        List<DBNote> notes = new ArrayList<>();
+        for(Item item : sdbClient.select(request).getItems()) {
+            String heading = "";
+            String body = "";
+            List<Attribute> attributes = item.getAttributes();
+            for(Attribute attribute : attributes) {
+                switch (attribute.getName()) {
+                    case "heading":
+                        heading = attribute.getValue();
+                        break;
+                    case "body":
+                        body = attribute.getValue();
+                        break;
+                    default:
+                        logger.info("Unknown attribute: " + attribute.getName());
+                }
+            }
+            DBNote note = new DBNote(item.getName(), heading, body);
+            notes.add(note);
+        }
+        
+        return notes;
     }
 
     @Override
-    public void deleteNote(Long noteId) {
+    public void deleteNote(String noteId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -56,6 +110,6 @@ public class NoteDaoAwsSimpleDbImpl implements NoteDao {
         attributes.add(new ReplaceableAttribute("heading", note.getHeading(), Boolean.TRUE));
         attributes.add(new ReplaceableAttribute("body", note.getBody(), Boolean.TRUE));
         noteItem.setAttributes(attributes);
-        sdb.putAttributes(new PutAttributesRequest(domainName, noteItem.getName(), noteItem.getAttributes()));
+        sdbClient.putAttributes(new PutAttributesRequest(domainName, noteItem.getName(), noteItem.getAttributes()));
     }
 }

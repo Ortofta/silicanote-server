@@ -5,17 +5,17 @@ package org.silicanote.model.web;
  * @author Markus Svensson
  */
 public class WebNote {
-    private final Long id;
+    private final String id;
     private final String heading;
     private final String body;
 
-    public WebNote(Long id, String heading, String body) {
+    public WebNote(String id, String heading, String body) {
         this.id = id;
         this.heading = heading;
         this.body = body;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 

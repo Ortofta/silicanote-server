@@ -11,7 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document
 public class DBNote {
     @Id
-    private final Long id;
+    private final String id;
     
     @Indexed
     private final String heading;
@@ -19,13 +19,13 @@ public class DBNote {
     @Indexed
     private final String body;
 
-    public DBNote(Long id, String heading, String body) {
+    public DBNote(String id, String heading, String body) {
         this.id = id;
         this.heading = heading;
         this.body = body;
     }
     
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
