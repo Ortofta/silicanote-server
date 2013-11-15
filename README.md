@@ -4,6 +4,12 @@ silicanote-server
 =================
 Server component for the SilicaNote SailfishOS app
 
+The server is currently designed for running on Amazon Elastic Beanstalk instances, 
+and uses Amazon SimpleDB for storage. It should, however, be fairly trivial to implement 
+DAO classes for any database. There is a partial MongoDB implementation in the repository.
+
+Have fun!
+
 Licensing
 =========
 
