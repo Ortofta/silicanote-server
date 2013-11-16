@@ -7,8 +7,11 @@ import javax.ws.rs.PathParam;
 import org.silicanote.engine.service.NoteService;
 import org.silicanote.model.db.DBNote;
 import org.silicanote.model.web.WebNote;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,6 +25,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Controller
 @RequestMapping("/services/notes")
 public class NoteController {
+    
+    private static final Logger logger = LoggerFactory.getLogger(NoteController.class);
     
     @Resource
     private NoteService service;
@@ -43,7 +48,9 @@ public class NoteController {
     @RequestMapping(value="/getnote/{id}", method = RequestMethod.GET, produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public WebNote getNote(@PathParam(value = "id") String id) {
+    public WebNote getNote(@PathVariable("id") String id) {
+        logger.info("Getting note with name: " + id);
+
         DBNote note = service.getNote(id);
         return new WebNote(note.getId(), note.getHeading(), note.getBody());
     }
