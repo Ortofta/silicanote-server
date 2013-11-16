@@ -3,7 +3,6 @@ package org.silicanote.webapp.controller;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Resource;
-import javax.ws.rs.PathParam;
 import org.silicanote.engine.service.NoteService;
 import org.silicanote.model.db.DBNote;
 import org.silicanote.model.web.WebNote;
@@ -65,7 +64,7 @@ public class NoteController {
     @RequestMapping(value = "/deletenote/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public void deleteNote(@PathParam(value = "id") String id) {
+    public void deleteNote(@PathVariable("id") String id) {
         service.deleteNote(id);
     }
 
