@@ -33,6 +33,7 @@
                 <groupId>com.smartbear.soapui</groupId>
                 <artifactId>soapui-maven-plugin</artifactId>
                 <version>4.6.1</version>
+                <!--
                 <executions>
                     <execution>
                         <phase>test</phase>
@@ -44,6 +45,7 @@
                         </configuration>
                     </execution>
                 </executions>
+                -->
             </plugin>
         </plugins>
     </build>
