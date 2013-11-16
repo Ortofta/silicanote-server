@@ -3,18 +3,20 @@ package org.silicanote.engine.dao;
 import com.amazonaws.services.simpledb.AmazonSimpleDB;
 import com.amazonaws.services.simpledb.model.Attribute;
 import com.amazonaws.services.simpledb.model.CreateDomainRequest;
+import com.amazonaws.services.simpledb.model.DeleteAttributesRequest;
 import com.amazonaws.services.simpledb.model.Item;
-import com.amazonaws.services.simpledb.model.NoSuchDomainException;
 import com.amazonaws.services.simpledb.model.PutAttributesRequest;
 import com.amazonaws.services.simpledb.model.ReplaceableAttribute;
 import com.amazonaws.services.simpledb.model.ReplaceableItem;
 import com.amazonaws.services.simpledb.model.SelectRequest;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import org.silicanote.model.db.DBNote;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
 /**
  *
@@ -30,22 +32,11 @@ public class NoteDaoAwsSimpleDbImpl implements NoteDao {
     @Resource
     private String domainName;
 
-    public void createDomain(String domainName) {
-        sdbClient.createDomain(new CreateDomainRequest(domainName));
-    }
-
     @Override
     public DBNote getNote(String noteId) {
         String selectStatement = "select * from " + domainName + " where ItemName = '" + noteId + "'";
         SelectRequest request = new SelectRequest(selectStatement);
         List<DBNote> notes = new ArrayList<>();
-
-        // Ugly hack for testing - to be handled in some other way
-        try {
-            sdbClient.select(request).getItems();
-        } catch (NoSuchDomainException e) {
-            createDomain(domainName);
-        }
 
         for (Item item : sdbClient.select(request).getItems()) {
             String heading = "";
@@ -108,7 +99,7 @@ public class NoteDaoAwsSimpleDbImpl implements NoteDao {
 
     @Override
     public void deleteNote(String noteId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        sdbClient.deleteAttributes(new DeleteAttributesRequest(domainName, noteId));
     }
 
     @Override
