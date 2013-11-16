@@ -23,8 +23,8 @@
         <module>silicanote-webapp</module>
         <module>silicanote-model</module>
         <module>silicanote-engine</module>
-    <module>silicanote-autotest</module>
-  </modules>
+        <module>silicanote-autotest</module>
+    </modules>
   
     <dependencies>
         <!-- Spring framework --> 
@@ -45,5 +45,4 @@
             <version>1.3.2.RELEASE</version>
         </dependency>
     </dependencies>
-  
 </project>

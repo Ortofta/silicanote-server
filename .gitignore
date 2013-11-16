@@ -8,3 +8,4 @@
 /silicanote-model/target/
 /silicanote-engine/target/
 /silicanote-autotest/target/
+*.log
