@@ -5,13 +5,29 @@ package org.silicanote.model.web;
  * @author Markus Svensson
  */
 public class WebNote {
-    private final String id;
-    private final String heading;
-    private final String body;
+    private String id;
+    private String heading;
+    private String body;
 
+    public WebNote() {
+        
+    }
+    
     public WebNote(String id, String heading, String body) {
         this.id = id;
         this.heading = heading;
+        this.body = body;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setHeading(String heading) {
+        this.heading = heading;
+    }
+
+    public void setBody(String body) {
         this.body = body;
     }
 

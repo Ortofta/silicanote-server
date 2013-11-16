@@ -48,7 +48,7 @@ public class NoteController {
         return new WebNote(note.getId(), note.getHeading(), note.getBody());
     }
     
-    @RequestMapping(value="/addnote", method = RequestMethod.POST)
+    @RequestMapping(value="/addnote", method = RequestMethod.POST, consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
     public void createNote(@RequestBody WebNote note){
