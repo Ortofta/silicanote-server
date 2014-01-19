@@ -31,7 +31,7 @@ public class NoteDaoAwsSimpleDbImpl implements NoteDao {
 
     @Override
     public DBNote getNote(String noteId) {
-        String selectStatement = "select * from " + domainName + " where itemName() = 'note_" + noteId + "'";
+        String selectStatement = "select * from " + domainName + " where itemName() = '" + noteId + "'";
         SelectRequest request = new SelectRequest(selectStatement);
         List<DBNote> notes = new ArrayList<>();
 
@@ -96,18 +96,17 @@ public class NoteDaoAwsSimpleDbImpl implements NoteDao {
 
     @Override
     public void deleteNote(String noteId) {
-        sdbClient.deleteAttributes(new DeleteAttributesRequest(domainName, ID_PREFIX + noteId));
+        sdbClient.deleteAttributes(new DeleteAttributesRequest(domainName, noteId));
     }
 
     @Override
     public void addNote(DBNote note) {
         ReplaceableItem noteItem = new ReplaceableItem();
-        noteItem.setName(ID_PREFIX + note.getId());
+        noteItem.setName(note.getId());
         List<ReplaceableAttribute> attributes = new ArrayList<>();
         attributes.add(new ReplaceableAttribute("heading", note.getHeading(), Boolean.TRUE));
         attributes.add(new ReplaceableAttribute("body", note.getBody(), Boolean.TRUE));
         noteItem.setAttributes(attributes);
         sdbClient.putAttributes(new PutAttributesRequest(domainName, noteItem.getName(), noteItem.getAttributes()));
     }
-    private static final String ID_PREFIX = "note_";
 }
