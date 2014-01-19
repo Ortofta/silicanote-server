@@ -27,7 +27,7 @@ public class SimpleDbConfig {
 
     @Bean(name = "regionName")
     public String getRegionName() {
-        return System.getProperty("SDB_REGION", Regions.AP_NORTHEAST_1.getName());
+        return System.getProperty("SDB_REGION", Regions.US_EAST_1.getName());
     }
 
     @Bean(name = "sdbClient")
