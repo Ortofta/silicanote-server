@@ -25,6 +25,11 @@ public class SimpleDbConfig {
         return System.getProperty("SDB_DOMAIN", "SilicaNoteDataStore");
     }
 
+    @Bean(name = "userDomainName")
+    public String getUserDomainName() {
+        return System.getProperty("SDB_USER_DOMAIN", "SilicaNoteUserStore");
+    }
+    
     @Bean(name = "regionName")
     public String getRegionName() {
         return System.getProperty("SDB_REGION", Regions.US_EAST_1.getName());
@@ -44,7 +49,8 @@ public class SimpleDbConfig {
     }
     
     @PostConstruct
-    public void createDomain() {
+    public void createDomains() {
         getSdbClient().createDomain(new CreateDomainRequest(getDomainName()));
+        getSdbClient().createDomain(new CreateDomainRequest(getUserDomainName()));
     }
 }
