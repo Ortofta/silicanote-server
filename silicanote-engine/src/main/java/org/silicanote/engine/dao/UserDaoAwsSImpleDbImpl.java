@@ -7,7 +7,6 @@ import com.amazonaws.services.simpledb.model.SelectRequest;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Resource;
-import org.silicanote.model.db.DBNote;
 import org.silicanote.model.db.DBUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
