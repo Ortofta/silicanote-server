@@ -1,16 +1,36 @@
 package org.silicanote.engine.service;
 
+import javax.annotation.Resource;
+import org.silicanote.engine.dao.UserDao;
 import org.silicanote.model.db.DBUser;
+import org.silicanote.model.web.WebUser;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author markus
  */
-public class UserServiceImpl implements UserService {
+@Service
+public class UserServiceImpl implements UserDetailsService {
+
+    @Resource
+    private UserDao dao;
 
     @Override
-    public DBUser getUser(String userName) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+        DBUser user = dao.getUser(userName);
+        
+        if (user == null) {
+            throw new UsernameNotFoundException("User name " + userName + " does not exist");
+        }
+
+        return new WebUser(user.getUserName(), user.getPassword());
     }
-    
+
+    public void setDao(UserDao dao) {
+        this.dao = dao;
+    }
 }

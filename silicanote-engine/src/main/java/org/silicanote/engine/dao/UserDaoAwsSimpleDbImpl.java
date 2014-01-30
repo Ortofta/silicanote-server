@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author markus
  */
-public class UserDaoAwsSImpleDbImpl implements UserDao {
+public class UserDaoAwsSimpleDbImpl implements UserDao {
 
     private static final Logger logger = LoggerFactory.getLogger(NoteDaoAwsSimpleDbImpl.class);
 

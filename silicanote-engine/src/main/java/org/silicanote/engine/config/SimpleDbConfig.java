@@ -10,6 +10,8 @@ import com.amazonaws.services.simpledb.model.CreateDomainRequest;
 import javax.annotation.PostConstruct;
 import org.silicanote.engine.dao.NoteDao;
 import org.silicanote.engine.dao.NoteDaoAwsSimpleDbImpl;
+import org.silicanote.engine.dao.UserDao;
+import org.silicanote.engine.dao.UserDaoAwsSimpleDbImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -46,6 +48,11 @@ public class SimpleDbConfig {
     @Bean
     NoteDao getSimpleDbDao() {
         return new NoteDaoAwsSimpleDbImpl();
+    }
+    
+    @Bean
+    UserDao getUserDao() {
+        return new UserDaoAwsSimpleDbImpl();
     }
     
     @PostConstruct
