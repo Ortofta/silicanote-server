@@ -7,17 +7,17 @@ import java.util.Objects;
  * @author Markus Svensson
  */
 public class DBUser {
-    private final long userId;
+    private final String userId;
     private final String userName;
     private final String password;
 
-    public DBUser(long userId, String userName, String password) {
+    public DBUser(String userId, String userName, String password) {
         this.userId = userId;
         this.userName = userName;
         this.password = password;
     }
 
-    public long getUserId() {
+    public String getUserId() {
         return userId;
     }
 
@@ -32,7 +32,7 @@ public class DBUser {
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 47 * hash + (int) (this.userId ^ (this.userId >>> 32));
+        hash = 47 * hash + Objects.hashCode(this.userId);
         hash = 47 * hash + Objects.hashCode(this.userName);
         hash = 47 * hash + Objects.hashCode(this.password);
         return hash;
@@ -47,7 +47,8 @@ public class DBUser {
             return false;
         }
         final DBUser other = (DBUser) obj;
-        if (this.userId != other.userId) {
+        
+        if (!Objects.equals(this.userId, other.userId)) {
             return false;
         }
         if (!Objects.equals(this.userName, other.userName)) {
