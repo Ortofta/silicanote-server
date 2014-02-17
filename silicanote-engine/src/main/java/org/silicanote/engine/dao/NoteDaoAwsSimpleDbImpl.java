@@ -30,8 +30,8 @@ public class NoteDaoAwsSimpleDbImpl implements NoteDao {
     private String domainName;
 
     @Override
-    public DBNote getNote(String noteId) {
-        String selectStatement = "select * from " + domainName + " where itemName() = '" + noteId + "'";
+    public DBNote getNote(String noteId, String userName) {
+        String selectStatement = "select * from " + domainName + " where itemName() = '" + noteId + "' and userName = '" + userName + "'";
         SelectRequest request = new SelectRequest(selectStatement);
         List<DBNote> notes = new ArrayList<>();
 
@@ -67,8 +67,8 @@ public class NoteDaoAwsSimpleDbImpl implements NoteDao {
     }
 
     @Override
-    public List<DBNote> getNotes() {
-        String selectStatement = "select * from " + domainName;
+    public List<DBNote> getNotes(String userName) {
+        String selectStatement = "select * from " + domainName + " where userName = '" + userName + "'";
         SelectRequest request = new SelectRequest(selectStatement);
         List<DBNote> notes = new ArrayList<>();
         for (Item item : sdbClient.select(request).getItems()) {
@@ -95,18 +95,20 @@ public class NoteDaoAwsSimpleDbImpl implements NoteDao {
     }
 
     @Override
-    public void deleteNote(String noteId) {
+    public void deleteNote(String noteId, String userName) {
         sdbClient.deleteAttributes(new DeleteAttributesRequest(domainName, noteId));
     }
 
     @Override
-    public void addNote(DBNote note) {
+    public void addNote(DBNote note, String userName) {
         ReplaceableItem noteItem = new ReplaceableItem();
         noteItem.setName(note.getId());
         List<ReplaceableAttribute> attributes = new ArrayList<>();
         attributes.add(new ReplaceableAttribute("heading", note.getHeading(), Boolean.TRUE));
         attributes.add(new ReplaceableAttribute("body", note.getBody(), Boolean.TRUE));
+        attributes.add(new ReplaceableAttribute("userName", userName, Boolean.TRUE));
         noteItem.setAttributes(attributes);
+        
         sdbClient.putAttributes(new PutAttributesRequest(domainName, noteItem.getName(), noteItem.getAttributes()));
     }
 }

@@ -8,8 +8,8 @@ import org.silicanote.model.db.DBNote;
  * @author Markus Svensson
  */
 public interface NoteService {
-    public DBNote getNote(String noteId);
-    public List<DBNote> getNotes();
-    public void deleteNote(String noteId);
-    public void addNote(DBNote note);
+    public DBNote getNote(String noteId, String userName);
+    public List<DBNote> getNotes(String userName);
+    public void deleteNote(String noteId, String userName);
+    public void addNote(DBNote note, String userName);
 }

@@ -17,23 +17,23 @@ public class NoteServiceImpl implements NoteService {
     private NoteDao dao;
     
     @Override
-    public DBNote getNote(String noteId) {
-        return dao.getNote(noteId);
+    public DBNote getNote(String noteId, String userName) {
+        return dao.getNote(noteId, userName);
     }
 
     @Override
-    public List<DBNote> getNotes() {
-        return dao.getNotes();
+    public List<DBNote> getNotes(String userName) {
+        return dao.getNotes(userName);
     }
 
     @Override
-    public void deleteNote(String noteId) {
-        dao.deleteNote(noteId);
+    public void deleteNote(String noteId, String userName) {
+        dao.deleteNote(noteId, userName);
     }
 
     @Override
-    public void addNote(DBNote note) {
-        dao.addNote(note);
+    public void addNote(DBNote note, String userName) {
+        dao.addNote(note, userName);
     }
 
     public void setDao(NoteDao dao) {

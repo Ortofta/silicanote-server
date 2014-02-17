@@ -1,5 +1,6 @@
 package org.silicanote.webapp.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Resource;
@@ -33,8 +34,8 @@ public class NoteController {
     @RequestMapping(value="/getnotes", method = RequestMethod.GET, produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public List<WebNote> getNotes() {
-        List<DBNote> dbNotes = service.getNotes();
+    public List<WebNote> getNotes(Principal principal) {
+        List<DBNote> dbNotes = service.getNotes(principal.getName());
         ArrayList<WebNote> notes = new ArrayList<>();
         
         for(DBNote note : dbNotes) {
@@ -47,25 +48,25 @@ public class NoteController {
     @RequestMapping(value="/getnote/{id}", method = RequestMethod.GET, produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public WebNote getNote(@PathVariable("id") String id) {
+    public WebNote getNote(@PathVariable("id") String id, Principal principal) {
         logger.info("Getting note with name: " + id);
 
-        DBNote note = service.getNote(id);
+        DBNote note = service.getNote(id, principal.getName());
         return new WebNote(note.getId(), note.getHeading(), note.getBody());
     }
     
     @RequestMapping(value="/addnote", method = RequestMethod.POST, consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    public void createNote(@RequestBody WebNote note){
-        service.addNote(new DBNote(note.getId(), note.getHeading(), note.getBody()));
+    public void createNote(@RequestBody WebNote note, Principal principal){
+        service.addNote(new DBNote(note.getId(), note.getHeading(), note.getBody()), principal.getName());
     }
    
     @RequestMapping(value = "/deletenote/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public void deleteNote(@PathVariable("id") String id) {
-        service.deleteNote(id);
+    public void deleteNote(@PathVariable("id") String id, Principal principal) {
+        service.deleteNote(id, principal.getName());
     }
 
     public void setService(NoteService service) {
