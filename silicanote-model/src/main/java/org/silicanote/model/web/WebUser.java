@@ -13,11 +13,23 @@ import org.springframework.security.core.userdetails.UserDetails;
  */
 public class WebUser implements UserDetails {
 
-    private final String userName;
-    private final String password;
+    private String userName;
+    private String password;
 
+    public WebUser() {
+        
+    }
+    
     public WebUser(String userName, String password) {
         this.userName = userName;
+        this.password = password;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public void setPassword(String password) {
         this.password = password;
     }
 

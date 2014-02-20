@@ -7,18 +7,12 @@ import java.util.Objects;
  * @author Markus Svensson
  */
 public class DBUser {
-    private final String userId;
     private final String userName;
     private final String password;
 
-    public DBUser(String userId, String userName, String password) {
-        this.userId = userId;
+    public DBUser(String userName, String password) {
         this.userName = userName;
         this.password = password;
-    }
-
-    public String getUserId() {
-        return userId;
     }
 
     public String getUserName() {
@@ -32,7 +26,6 @@ public class DBUser {
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 47 * hash + Objects.hashCode(this.userId);
         hash = 47 * hash + Objects.hashCode(this.userName);
         hash = 47 * hash + Objects.hashCode(this.password);
         return hash;
@@ -48,9 +41,6 @@ public class DBUser {
         }
         final DBUser other = (DBUser) obj;
         
-        if (!Objects.equals(this.userId, other.userId)) {
-            return false;
-        }
         if (!Objects.equals(this.userName, other.userName)) {
             return false;
         }
@@ -62,6 +52,6 @@ public class DBUser {
 
     @Override
     public String toString() {
-        return "DBUser{" + "userId=" + userId + ", userName=" + userName + ", password=" + password + '}';
+        return "DBUser{" + "userName=" + userName + ", password=" + password + '}';
     }
 }

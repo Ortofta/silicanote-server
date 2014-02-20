@@ -17,11 +17,7 @@
     </security:http>
         
     <security:authentication-manager>
-        <security:authentication-provider user-service-ref="userServiceImpl">
-            <!--security:user-service>
-                <security:user name="test" password="test" authorities="ROLE_USER" />
-            </security:user-service-->
-        </security:authentication-provider>
+        <security:authentication-provider user-service-ref="userServiceImpl" />
     </security:authentication-manager>
     
     <context:component-scan base-package="org.silicanote"/>
