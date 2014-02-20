@@ -2,6 +2,7 @@ package org.silicanote.engine.dao;
 
 import com.amazonaws.services.simpledb.AmazonSimpleDB;
 import com.amazonaws.services.simpledb.model.Attribute;
+import com.amazonaws.services.simpledb.model.DeleteAttributesRequest;
 import com.amazonaws.services.simpledb.model.Item;
 import com.amazonaws.services.simpledb.model.PutAttributesRequest;
 import com.amazonaws.services.simpledb.model.ReplaceableAttribute;
@@ -88,5 +89,10 @@ public class UserDaoAwsSimpleDbImpl implements UserDao {
             }
         }
         throw new IllegalStateException("No count attribute was found - can't verify if the user exists or not");
+    }
+
+    @Override
+    public void deleteUser(String userName) {
+        sdbClient.deleteAttributes(new DeleteAttributesRequest(userDomainName, userName));
     }
 }

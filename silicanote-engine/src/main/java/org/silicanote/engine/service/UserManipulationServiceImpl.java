@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 /**
  *
- * @author markus
+ * @author Markus Svensson
  */
 @Service
 public class UserManipulationServiceImpl implements UserManipulationService{
@@ -17,5 +17,10 @@ public class UserManipulationServiceImpl implements UserManipulationService{
     @Override
     public void addUser(String userName, String password) {
         dao.addUser(userName, password);
+    }
+
+    @Override
+    public void deleteUser(String userName) {
+        dao.deleteUser(userName);    
     }
 }

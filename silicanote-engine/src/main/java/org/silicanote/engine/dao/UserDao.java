@@ -9,4 +9,5 @@ import org.silicanote.model.db.DBUser;
 public interface UserDao {
     public DBUser getUser(String userName);
     public void addUser(String userName, String password);
+    public void deleteUser(String userName);
 }

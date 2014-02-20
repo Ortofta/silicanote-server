@@ -6,4 +6,5 @@ package org.silicanote.engine.service;
  */
 public interface UserManipulationService {
     public void addUser(String userName, String password);
+    public void deleteUser(String userName);
 }
