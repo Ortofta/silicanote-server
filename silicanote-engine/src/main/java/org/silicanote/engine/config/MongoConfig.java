@@ -1,20 +1,22 @@
 package org.silicanote.engine.config;
 
-import com.mongodb.Mongo;
+import com.mongodb.DB;
+import com.mongodb.MongoClient;
+import com.mongodb.ServerAddress;
 import java.net.UnknownHostException;
+import org.jongo.Jongo;
+import org.jongo.MongoCollection;
 import org.silicanote.engine.dao.NoteDao;
 import org.silicanote.engine.dao.NoteDaoMongoImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 /**
  *
  * @author Markus Svensson
  */
-//@Configuration
+@Configuration
 public class MongoConfig {
 
     @Value("${silicanote.mongodb.host}")
@@ -23,14 +25,32 @@ public class MongoConfig {
     @Value("${silicanote.mongodb.dbname}")
     private String dbName;
     
+    @Value("${silicanote.mongodb.notecollection}")
+    private String noteCollectionName;
+    
+    @Value("${silicanote.mongodb.usercollection}")
+    private String userCollectionName;
+    
     @Bean
-    Mongo getMongo() throws UnknownHostException {
-        return new Mongo(dbHost);
+    DB getDb() throws UnknownHostException {
+        ServerAddress address = new ServerAddress(dbHost);
+        MongoClient client = new MongoClient(address);
+        return client.getDB(dbName);
     }
     
     @Bean
-    MongoTemplate mongoTemplate(Mongo mongo) throws UnknownHostException {
-        return new MongoTemplate(getMongo(), dbName);
+    Jongo mongoTemplate(DB db) throws UnknownHostException {
+        return new Jongo(db);
+    }
+
+    @Bean
+    MongoCollection getNoteCollection() throws UnknownHostException {
+        return mongoTemplate(getDb()).getCollection(noteCollectionName);
+    }
+    
+    @Bean
+    MongoCollection getUserCollection() throws UnknownHostException {
+        return mongoTemplate(getDb()).getCollection(userCollectionName);
     }
     
     @Bean

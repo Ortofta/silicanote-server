@@ -1,9 +1,7 @@
 package org.silicanote.engine.dao;
 
 import java.util.List;
-import javax.annotation.Resource;
 import org.silicanote.model.db.DBNote;
-import org.springframework.data.mongodb.core.MongoTemplate;
 
 /**
  *
