@@ -39,18 +39,18 @@ public class MongoConfig {
     }
     
     @Bean
-    Jongo mongoTemplate(DB db) throws UnknownHostException {
-        return new Jongo(db);
+    Jongo getJango() throws UnknownHostException {
+        return new Jongo(getDb());
     }
 
-    @Bean
+    @Bean(name = "noteCollection")
     MongoCollection getNoteCollection() throws UnknownHostException {
-        return mongoTemplate(getDb()).getCollection(noteCollectionName);
+        return getJango().getCollection(noteCollectionName);
     }
     
-    @Bean
+    @Bean(name = "userCollection")
     MongoCollection getUserCollection() throws UnknownHostException {
-        return mongoTemplate(getDb()).getCollection(userCollectionName);
+        return getJango().getCollection(userCollectionName);
     }
     
     @Bean

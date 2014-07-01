@@ -1,6 +1,8 @@
 package org.silicanote.engine.dao;
 
 import java.util.List;
+import javax.annotation.Resource;
+import org.jongo.MongoCollection;
 import org.silicanote.model.db.DBNote;
 
 /**
@@ -9,9 +11,13 @@ import org.silicanote.model.db.DBNote;
  */
 public class NoteDaoMongoImpl implements NoteDao {
 
+    @Resource(name = "noteCollection")
+    MongoCollection noteCollection;
+    
     @Override
     public DBNote getNote(String noteId, String userName) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        DBNote note = noteCollection.findOne("{nid: #, uid: #}", noteId, userName).as(DBNote.class);
+        return note;
     }
 
     @Override
