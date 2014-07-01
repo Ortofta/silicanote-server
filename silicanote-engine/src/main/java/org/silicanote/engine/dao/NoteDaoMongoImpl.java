@@ -1,5 +1,6 @@
 package org.silicanote.engine.dao;
 
+import com.google.common.collect.Lists;
 import java.util.List;
 import javax.annotation.Resource;
 import org.jongo.MongoCollection;
@@ -22,9 +23,10 @@ public class NoteDaoMongoImpl implements NoteDao {
 
     @Override
     public List<DBNote> getNotes(String userName) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Iterable<DBNote> notes = noteCollection.find("{uid: #}", userName).as(DBNote.class);
+        return Lists.newArrayList(notes);
     }
-
+    
     @Override
     public void deleteNote(String noteId, String userName) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -34,10 +36,4 @@ public class NoteDaoMongoImpl implements NoteDao {
     public void addNote(DBNote note, String userName) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-//    @Resource
-//    MongoTemplate mongoTemplate;
-    
-    
-    
 }
