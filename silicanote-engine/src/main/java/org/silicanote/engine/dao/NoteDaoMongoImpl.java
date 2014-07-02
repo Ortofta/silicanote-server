@@ -29,11 +29,11 @@ public class NoteDaoMongoImpl implements NoteDao {
     
     @Override
     public void deleteNote(String noteId, String userName) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        noteCollection.remove("{nid: #, uid: #}", noteId, userName);
     }
 
     @Override
     public void addNote(DBNote note, String userName) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        noteCollection.insert("{nid: #, uid: #, h: #, b: #}", note.getId(), userName, note.getHeading(), note.getBody());
     }
 }

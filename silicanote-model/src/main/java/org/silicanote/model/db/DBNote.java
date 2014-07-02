@@ -1,32 +1,30 @@
 package org.silicanote.model.db;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
+import java.util.Objects;
+import org.jongo.marshall.jackson.oid.Id;
 
 /**
  *
  * @author Markus Svensson
  */
-@Document
 public class DBNote {
     @Id
-    private final String id;
+    private String _id;
     
-    @Indexed
+    private final String noteId;
+    
     private final String heading;
     
-    @Indexed
     private final String body;
 
     public DBNote(String id, String heading, String body) {
-        this.id = id;
+        this.noteId = id;
         this.heading = heading;
         this.body = body;
     }
     
     public String getId() {
-        return id;
+        return noteId;
     }
 
     public String getHeading() {
@@ -39,10 +37,11 @@ public class DBNote {
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 53 * hash + (this.id != null ? this.id.hashCode() : 0);
-        hash = 53 * hash + (this.heading != null ? this.heading.hashCode() : 0);
-        hash = 53 * hash + (this.body != null ? this.body.hashCode() : 0);
+        int hash = 7;
+        hash = 59 * hash + Objects.hashCode(this._id);
+        hash = 59 * hash + Objects.hashCode(this.noteId);
+        hash = 59 * hash + Objects.hashCode(this.heading);
+        hash = 59 * hash + Objects.hashCode(this.body);
         return hash;
     }
 
@@ -55,13 +54,16 @@ public class DBNote {
             return false;
         }
         final DBNote other = (DBNote) obj;
-        if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) {
+        if (!Objects.equals(this._id, other._id)) {
             return false;
         }
-        if ((this.heading == null) ? (other.heading != null) : !this.heading.equals(other.heading)) {
+        if (!Objects.equals(this.noteId, other.noteId)) {
             return false;
         }
-        if ((this.body == null) ? (other.body != null) : !this.body.equals(other.body)) {
+        if (!Objects.equals(this.heading, other.heading)) {
+            return false;
+        }
+        if (!Objects.equals(this.body, other.body)) {
             return false;
         }
         return true;
@@ -69,6 +71,6 @@ public class DBNote {
 
     @Override
     public String toString() {
-        return "DBNote{" + "id=" + id + ", heading=" + heading + ", body=" + body + '}';
+        return "DBNote{" + "_id=" + _id + ", noteId=" + noteId + ", heading=" + heading + ", body=" + body + '}';
     }
 }
