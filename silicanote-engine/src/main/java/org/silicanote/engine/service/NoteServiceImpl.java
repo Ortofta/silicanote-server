@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class NoteServiceImpl implements NoteService {
 
-    @Resource
+    @Resource(name = "mongoDao")
     private NoteDao dao;
     
     @Override

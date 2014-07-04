@@ -26,12 +26,12 @@ public class MongoConfig {
         return uri;
     }
     
-    @Bean(name = "userCollection")
+    @Bean(name = "userCollectionName")
     public String getUserCollectionName() {
         return System.getProperty("MONGO_USER_COLLECTION", "users");
     }
     
-    @Bean(name = "noteCollection")
+    @Bean(name = "noteCollectionName")
     public String getNoteCollectionName() {
         return System.getProperty("MONGO_NOTE_COLLECTION", "notes");
     }
@@ -57,7 +57,7 @@ public class MongoConfig {
         return getJango().getCollection(getUserCollectionName());
     }
     
-    @Bean
+    @Bean(name = "mongoDao")
     NoteDao getNoteDao() {
         return new NoteDaoMongoImpl();
     }

@@ -50,7 +50,7 @@ public class SimpleDbConfig {
         return new NoteDaoAwsSimpleDbImpl();
     }
     
-    @Bean
+    @Bean(name = "simpleDbDao")
     UserDao getUserDao() {
         return new UserDaoAwsSimpleDbImpl();
     }
