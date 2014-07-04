@@ -3,13 +3,11 @@ package org.silicanote.engine.config;
 import com.mongodb.DB;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
-import com.mongodb.ServerAddress;
 import java.net.UnknownHostException;
 import org.jongo.Jongo;
 import org.jongo.MongoCollection;
 import org.silicanote.engine.dao.NoteDao;
 import org.silicanote.engine.dao.NoteDaoMongoImpl;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
