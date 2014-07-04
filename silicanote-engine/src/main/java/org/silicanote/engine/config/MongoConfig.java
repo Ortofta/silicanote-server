@@ -2,6 +2,7 @@ package org.silicanote.engine.config;
 
 import com.mongodb.DB;
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
 import com.mongodb.ServerAddress;
 import java.net.UnknownHostException;
 import org.jongo.Jongo;
@@ -19,23 +20,26 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class MongoConfig {
 
-    @Value("${silicanote.mongodb.host}")
-    private String dbHost;
-
-    @Value("${silicanote.mongodb.dbname}")
-    private String dbName;
+    @Bean(name = "uri")
+    public MongoClientURI getMongoUri() {
+        MongoClientURI uri = new MongoClientURI(System.getProperty("MONGO_URI"));
+        return uri;
+    }
     
-    @Value("${silicanote.mongodb.notecollection}")
-    private String noteCollectionName;
+    @Bean(name = "userCollection")
+    public String getUserCollectionName() {
+        return System.getProperty("MONGO_USER_COLLECTION", "users");
+    }
     
-    @Value("${silicanote.mongodb.usercollection}")
-    private String userCollectionName;
+    @Bean(name = "noteCollection")
+    public String getNoteCollectionName() {
+        return System.getProperty("MONGO_NOTE_COLLECTION", "notes");
+    }
     
     @Bean
     DB getDb() throws UnknownHostException {
-        ServerAddress address = new ServerAddress(dbHost);
-        MongoClient client = new MongoClient(address);
-        return client.getDB(dbName);
+        MongoClient client = new MongoClient(getMongoUri());
+        return client.getDB(getMongoUri().getDatabase());
     }
     
     @Bean
@@ -45,12 +49,12 @@ public class MongoConfig {
 
     @Bean(name = "noteCollection")
     MongoCollection getNoteCollection() throws UnknownHostException {
-        return getJango().getCollection(noteCollectionName);
+        return getJango().getCollection(getNoteCollectionName());
     }
     
     @Bean(name = "userCollection")
     MongoCollection getUserCollection() throws UnknownHostException {
-        return getJango().getCollection(userCollectionName);
+        return getJango().getCollection(getUserCollectionName());
     }
     
     @Bean
