@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserManipulationServiceImpl implements UserManipulationService{
 
-    @Resource
+    @Resource(name = "simpleDbUserDao")
     private UserDao dao;
     
     @Override

@@ -8,6 +8,8 @@ import org.jongo.Jongo;
 import org.jongo.MongoCollection;
 import org.silicanote.engine.dao.NoteDao;
 import org.silicanote.engine.dao.NoteDaoMongoImpl;
+import org.silicanote.engine.dao.UserDao;
+import org.silicanote.engine.dao.UserDaoMongoImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -20,18 +22,18 @@ public class MongoConfig {
 
     @Bean(name = "uri")
     public MongoClientURI getMongoUri() {
-        MongoClientURI uri = new MongoClientURI(System.getProperty("MONGO_URI"));
+        MongoClientURI uri = new MongoClientURI(System.getenv("MONGO_URI"));
         return uri;
     }
     
     @Bean(name = "userCollectionName")
     public String getUserCollectionName() {
-        return System.getProperty("MONGO_USER_COLLECTION", "users");
+        return System.getenv("MONGO_USER_COLLECTION");
     }
     
     @Bean(name = "noteCollectionName")
     public String getNoteCollectionName() {
-        return System.getProperty("MONGO_NOTE_COLLECTION", "notes");
+        return System.getenv("MONGO_NOTE_COLLECTION");
     }
     
     @Bean
@@ -60,4 +62,9 @@ public class MongoConfig {
         return new NoteDaoMongoImpl();
     }
 
+    @Bean(name = "mongoUserDao")
+    UserDao getUSerDao() {
+        return new UserDaoMongoImpl();
+    }
+    
 }

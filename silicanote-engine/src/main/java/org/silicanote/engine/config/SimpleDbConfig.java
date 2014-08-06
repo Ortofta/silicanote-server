@@ -24,22 +24,22 @@ public class SimpleDbConfig {
 
     @Bean(name = "domainName")
     public String getDomainName() {
-        return System.getProperty("SDB_DOMAIN", "SilicaNoteDataStore");
+        return System.getenv("SDB_DOMAIN");
     }
 
     @Bean(name = "userDomainName")
     public String getUserDomainName() {
-        return System.getProperty("SDB_USER_DOMAIN", "SilicaNoteUserStore");
+        return System.getenv("SDB_USER_DOMAIN");
     }
     
     @Bean(name = "regionName")
     public String getRegionName() {
-        return System.getProperty("SDB_REGION", Regions.US_EAST_1.getName());
+        return System.getenv("SDB_REGION");
     }
 
     @Bean(name = "sdbClient")
     public AmazonSimpleDB getSdbClient() {
-        AWSCredentials credentials = new BasicAWSCredentials(System.getProperty("AWS_ACCESS_KEY_ID", "invalid_key"), System.getProperty("AWS_SECRET_KEY", "invalid_secret"));
+        AWSCredentials credentials = new BasicAWSCredentials(System.getenv("AWS_ACCESS_KEY_ID"), System.getenv("AWS_SECRET_KEY"));
         AmazonSimpleDB sdb = new AmazonSimpleDBClient(credentials);
         sdb.setRegion(Region.getRegion(Regions.fromName(getRegionName())));
         return sdb;
@@ -50,7 +50,7 @@ public class SimpleDbConfig {
         return new NoteDaoAwsSimpleDbImpl();
     }
     
-    @Bean(name = "simpleDbDao")
+    @Bean(name = "simpleDbUserDao")
     UserDao getUserDao() {
         return new UserDaoAwsSimpleDbImpl();
     }
