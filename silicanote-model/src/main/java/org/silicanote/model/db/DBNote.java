@@ -1,5 +1,6 @@
 package org.silicanote.model.db;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Objects;
 import org.jongo.marshall.jackson.oid.Id;
 
@@ -11,16 +12,43 @@ public class DBNote {
     @Id
     private String _id;
     
-    private final String noteId;
+    @JsonProperty("nid")
+    private String noteId;
     
-    private final String heading;
+    @JsonProperty("h")
+    private String heading;
     
-    private final String body;
+    @JsonProperty("b")
+    private String body;
 
+    public DBNote() {
+        
+    }
+    
     public DBNote(String id, String heading, String body) {
         this.noteId = id;
         this.heading = heading;
         this.body = body;
+    }
+
+    public void setId(String _id) {
+        this._id = _id;
+    }
+
+    public void setNoteId(String noteId) {
+        this.noteId = noteId;
+    }
+
+    public void setHeading(String heading) {
+        this.heading = heading;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
+    }
+
+    public String getNoteId() {
+        return noteId;
     }
     
     public String getId() {

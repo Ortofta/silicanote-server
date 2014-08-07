@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl implements UserDetailsService {
 
-    @Resource(name = "simpleDbUserDao")
+    @Resource(name = "mongoUserDao")
     private UserDao dao;
 
     @Override

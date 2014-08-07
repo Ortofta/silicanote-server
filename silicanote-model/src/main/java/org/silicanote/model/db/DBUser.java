@@ -1,5 +1,6 @@
 package org.silicanote.model.db;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Objects;
 import org.jongo.marshall.jackson.oid.Id;
 
@@ -11,16 +12,39 @@ public class DBUser {
     @Id
     private String _id;
     
-    private final String userName;
-    private final String password;
+    @JsonProperty("un")
+    private String userName;
+    
+    @JsonProperty("pw")
+    private String password;
 
+    public DBUser() {
+        
+    }
+    
     public DBUser(String userName, String password) {
         this.userName = userName;
         this.password = password;
     }
 
+    public String getId() {
+        return _id;
+    }
+
+    public void setId(String _id) {
+        this._id = _id;
+    }
+
+    public void setUserName(String un) {
+        this.userName = un;
+    }
+
     public String getUserName() {
         return userName;
+    }
+    
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getPassword() {

@@ -2,7 +2,6 @@ package org.silicanote.engine.dao;
 
 import javax.annotation.Resource;
 import org.jongo.MongoCollection;
-import org.silicanote.model.db.DBNote;
 import org.silicanote.model.db.DBUser;
 
 /**
