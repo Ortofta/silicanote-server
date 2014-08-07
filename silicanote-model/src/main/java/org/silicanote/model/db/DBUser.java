@@ -1,12 +1,16 @@
 package org.silicanote.model.db;
 
 import java.util.Objects;
+import org.jongo.marshall.jackson.oid.Id;
 
 /**
  *
  * @author Markus Svensson
  */
 public class DBUser {
+    @Id
+    private String _id;
+    
     private final String userName;
     private final String password;
 
@@ -26,8 +30,9 @@ public class DBUser {
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 47 * hash + Objects.hashCode(this.userName);
-        hash = 47 * hash + Objects.hashCode(this.password);
+        hash = 59 * hash + Objects.hashCode(this._id);
+        hash = 59 * hash + Objects.hashCode(this.userName);
+        hash = 59 * hash + Objects.hashCode(this.password);
         return hash;
     }
 
@@ -40,7 +45,9 @@ public class DBUser {
             return false;
         }
         final DBUser other = (DBUser) obj;
-        
+        if (!Objects.equals(this._id, other._id)) {
+            return false;
+        }
         if (!Objects.equals(this.userName, other.userName)) {
             return false;
         }
@@ -52,6 +59,6 @@ public class DBUser {
 
     @Override
     public String toString() {
-        return "DBUser{" + "userName=" + userName + ", password=" + password + '}';
+        return "DBUser{" + "_id=" + _id + ", userName=" + userName + ", password=" + password + '}';
     }
 }

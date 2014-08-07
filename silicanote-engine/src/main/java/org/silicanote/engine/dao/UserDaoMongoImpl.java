@@ -1,5 +1,8 @@
 package org.silicanote.engine.dao;
 
+import javax.annotation.Resource;
+import org.jongo.MongoCollection;
+import org.silicanote.model.db.DBNote;
 import org.silicanote.model.db.DBUser;
 
 /**
@@ -8,19 +11,22 @@ import org.silicanote.model.db.DBUser;
  */
 public class UserDaoMongoImpl implements UserDao {
 
+    @Resource(name = "userCollection")
+    MongoCollection userCollection;
+
     @Override
-    public DBUser getUser(String userName) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public DBUser getUser(final String userName) {
+        return userCollection.findOne("{un: #}", userName).as(DBUser.class);
     }
 
     @Override
-    public void addUser(String userName, String password) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void addUser(final String userName, final String password) {
+        userCollection.insert("{un: #, pw: #}", userName, password);
     }
 
     @Override
-    public void deleteUser(String userName) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void deleteUser(final String userName) {
+        userCollection.remove("{un: #}", userName);
     }
-    
+
 }
